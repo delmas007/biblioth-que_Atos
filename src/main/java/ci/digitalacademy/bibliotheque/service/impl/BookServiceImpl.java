@@ -46,13 +46,23 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookDTO update(BookDTO bookDTO, Long id) {
+    public BookDTO update(BookDTO bookDTO) {
             return findOneById(bookDTO.getId()).map(existingBook -> {
-                existingBook.setTitle(bookDTO.getTitle());
-                existingBook.setAuthor(bookDTO.getAuthor());
-                existingBook.setCategory(bookDTO.getCategory());
-                existingBook.setDescription(bookDTO.getDescription());
-                existingBook.setQuantite(bookDTO.getQuantite());
+                if (bookDTO.getCategory() != null) {
+                    existingBook.setCategory(bookDTO.getCategory());
+                }
+                if (bookDTO.getTitle() != null) {
+                    existingBook.setTitle(bookDTO.getTitle());
+                }
+                if (bookDTO.getAuthor() != null) {
+                    existingBook.setAuthor(bookDTO.getAuthor());
+                }
+                if (bookDTO.getDescription() != null) {
+                    existingBook.setDescription(bookDTO.getDescription());
+                }
+                if (bookDTO.getQuantite() != null) {
+                    existingBook.setQuantite(bookDTO.getQuantite());
+                }
                 return save(existingBook);
             }).orElseThrow(IllegalArgumentException::new);    }
 

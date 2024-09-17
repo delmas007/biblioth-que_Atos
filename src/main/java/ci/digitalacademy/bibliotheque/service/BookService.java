@@ -11,7 +11,7 @@ public interface BookService {
     Optional<BookDTO>findOneBySlug(String slug);
     List<BookDTO> findAll();
     BookDTO save(BookDTO bookDTO);
-    BookDTO update(BookDTO bookDTO, Long id);
+    BookDTO update(BookDTO bookDTO);
     void deleteById(Long id);
 
 

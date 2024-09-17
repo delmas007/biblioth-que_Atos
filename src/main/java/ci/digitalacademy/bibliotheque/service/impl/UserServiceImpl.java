@@ -28,14 +28,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO update(UserDTO userDTO, Long id) {
+    public UserDTO update(UserDTO userDTO) {
         return findOneById(userDTO.getId()).map(existingUser ->{
-            existingUser.setLastName(userDTO.getLastName());
-            existingUser.setFirstName(userDTO.getFirstName());
-            existingUser.setEmail(userDTO.getEmail());
-            existingUser.setCountry(userDTO.getCountry());
-            existingUser.setCity(userDTO.getCity());
-            existingUser.setStreet(userDTO.getStreet());
+            if (userDTO.getFirstName() != null){
+                existingUser.setFirstName(userDTO.getFirstName());
+            }
+            if (userDTO.getLastName() != null){
+                existingUser.setLastName(userDTO.getLastName());
+            }
+            if (userDTO.getEmail() != null){
+                existingUser.setEmail(userDTO.getEmail());
+            }
+            if (userDTO.getSlug() != null){
+                existingUser.setSlug(userDTO.getSlug());
+            }
+            if (userDTO.getCity() != null){
+                existingUser.setCity(userDTO.getCity());
+            }
+            if (userDTO.getCountry() != null){
+                existingUser.setCountry(userDTO.getCountry());
+            }
+            if (userDTO.getStreet() != null){
+                existingUser.setStreet(userDTO.getStreet());
+            }
             return save(existingUser);
 
         }).orElseThrow(IllegalArgumentException::new);

@@ -1,6 +1,7 @@
 package ci.digitalacademy.bibliotheque.service.dto;
 
 import ci.digitalacademy.bibliotheque.model.Loan;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,5 +18,6 @@ public class BookDTO {
     private String author;
     private String description;
     private Integer quantite;
+    @JsonIgnore
     private List<LoanDTO> loan;
 }

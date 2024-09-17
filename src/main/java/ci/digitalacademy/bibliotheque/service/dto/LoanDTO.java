@@ -12,9 +12,11 @@ import java.util.Date;
 @Setter
 public class LoanDTO {
     private Long id;
+    private String slug;
     private Date date_loan;
     private Date deadline;
     private Boolean retun;
     private UserDTO user;
     private BookDTO book;
+    private Boolean reservation;
 }

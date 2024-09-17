@@ -16,9 +16,11 @@ public class Loan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String slug;
     private Date date_loan;
     private Date deadline;
     private Boolean retun;
+    private Boolean reservation;
 
     @ManyToOne
     private User user;

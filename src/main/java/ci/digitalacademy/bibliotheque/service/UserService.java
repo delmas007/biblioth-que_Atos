@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface UserService {
 
     UserDTO save(UserDTO userDTO);
-    UserDTO update(UserDTO userDTO,Long id);
+    UserDTO update(UserDTO userDTO);
     void deleteById(Long id);
 
     List<UserDTO> getAll();

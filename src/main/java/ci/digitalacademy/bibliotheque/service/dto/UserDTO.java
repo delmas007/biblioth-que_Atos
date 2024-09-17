@@ -1,6 +1,7 @@
 package ci.digitalacademy.bibliotheque.service.dto;
 
 import ci.digitalacademy.bibliotheque.model.Loan;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
@@ -18,5 +19,6 @@ public class UserDTO {
     private String city;
     private String country;
     private String street;
+    @JsonIgnore
     private Set<LoanDTO> loan;
 }
