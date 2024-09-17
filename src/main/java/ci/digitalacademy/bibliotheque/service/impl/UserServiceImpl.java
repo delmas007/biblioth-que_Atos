@@ -60,6 +60,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<UserDTO> findOneBySlug(String slug) {
-        return null;
+        return userRepository.findUerBySlug(slug).map(book -> userMapper.fromEntity(book));
     }
 }
