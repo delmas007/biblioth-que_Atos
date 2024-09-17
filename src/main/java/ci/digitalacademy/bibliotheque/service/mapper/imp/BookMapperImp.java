@@ -10,7 +10,9 @@ import org.springframework.stereotype.Component;
 @Component
 @AllArgsConstructor
 public class BookMapperImp implements BookMapper {
+
     private  final ModelMapper modelMapper;
+
     @Override
     public BookDTO fromEntity(Book entity) {
         return modelMapper.map(entity, BookDTO.class);
@@ -20,4 +22,7 @@ public class BookMapperImp implements BookMapper {
     public Book toEntity(BookDTO dto) {
         return modelMapper.map(dto, Book.class);
     }
+
+
+
 }
