@@ -190,5 +190,15 @@ public class NotificationMailServiceImp implements NotificationMailService {
         }
     }
 
+    @Override
+    public void sendNotificationMailCancel(LoanDTO loanDTO) {
+
+    }
+
+    @Override
+    public void sendNotificationMailRejete(LoanDTO loanDTO) {
+
+    }
+
 
 }

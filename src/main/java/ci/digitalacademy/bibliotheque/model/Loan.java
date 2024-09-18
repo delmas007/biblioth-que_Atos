@@ -1,5 +1,6 @@
 package ci.digitalacademy.bibliotheque.model;
 
+import ci.digitalacademy.bibliotheque.model.enume.Statut;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,8 +20,8 @@ public class Loan {
     private String slug;
     private Date date_loan;
     private Date deadline;
-    private Boolean retun;
-    private Boolean reservation;
+    @Enumerated(EnumType.STRING)
+    private Statut statut;
 
     @ManyToOne
     private User user;

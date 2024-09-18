@@ -13,6 +13,8 @@ public interface LoanService {
     ReservationDTO saveReservation(ReservationDTO reservationDTO);
     boolean confirmLoan(ConfirmLoanDTO confirmLoanDTO);
     boolean confirmReturn(String slug);
+    boolean cancel(String slug);
+    boolean REJETE(String slug);
     List<LoanDTO> getAllReservation();
     List<LoanDTO> getAllLoan();
     LoanDTO update(LoanDTO loanDTO);

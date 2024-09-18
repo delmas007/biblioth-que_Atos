@@ -3,16 +3,21 @@ package ci.digitalacademy.bibliotheque.service.dto;
 import ci.digitalacademy.bibliotheque.model.Loan;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.management.relation.Role;
 import java.util.Set;
 @Getter
 @Setter
 public class UserDTO {
     private Long id;
     private String slug;
+    private String username;
+    private String password;
     private String firstName;
     private String lastName;
     private String email;
@@ -21,4 +26,5 @@ public class UserDTO {
     private String street;
     @JsonIgnore
     private Set<LoanDTO> loan;
+    private Set<Role> role;
 }

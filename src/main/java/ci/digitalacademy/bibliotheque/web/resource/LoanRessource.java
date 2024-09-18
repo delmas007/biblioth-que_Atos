@@ -25,20 +25,28 @@ public class LoanRessource {
     @PostMapping
     @ApiResponse(responseCode = "201", description = "Loan created")
     @Operation(summary = "Create a new loan", description = "Create a new loan")
-    public ResponseEntity<LoanDTO> save(@RequestBody LoanDTO loanDTO){
+    public ResponseEntity<?> save(@RequestBody LoanDTO loanDTO){
         log.debug("REST Request to save Loan : {}", loanDTO);
-        return new ResponseEntity<>(loanService.saveLoan(loanDTO), HttpStatus.CREATED);
+        LoanDTO loanDTO1 =loanService.saveLoan(loanDTO);
+        if (loanDTO1 == null){
+                return new ResponseEntity<>("Emprunt already taken by the user",HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(loanDTO1, HttpStatus.CREATED);
     }
 
     @PostMapping("/reservation")
     @ApiResponse(responseCode = "201", description = "Reservation created")
     @Operation(summary = "Create a new reservation", description = "Create a new reservation")
-    public ResponseEntity<ReservationDTO> saveReservation(@RequestBody ReservationDTO reservationDTO){
+    public ResponseEntity<?> saveReservation(@RequestBody ReservationDTO reservationDTO){
         log.debug("REST Request to save Reservation : {}", reservationDTO);
-        return new ResponseEntity<>(loanService.saveReservation(reservationDTO), HttpStatus.CREATED);
+        ReservationDTO reservationDTO1 = loanService.saveReservation(reservationDTO);
+        if (reservationDTO1 == null){
+            return new ResponseEntity<>("Reservation or Emprunt already taken by the user",HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(reservationDTO1, HttpStatus.CREATED);
     }
 
-    @PostMapping("/confirm_loan")
+    @PatchMapping("/confirm_loan")
     public ResponseEntity<Boolean> confirmLoan(@RequestBody ConfirmLoanDTO confirmLoanDTO){
         log.debug("REST Request to confirm Loan : {}", confirmLoanDTO);
         boolean confirm = loanService.confirmLoan(confirmLoanDTO);
@@ -49,7 +57,7 @@ public class LoanRessource {
         }
     }
 
-    @PostMapping("/confirm_return/{slug}")
+    @PatchMapping("/confirm_return/{slug}")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Request to confirm return"),
             @ApiResponse(responseCode = "404", description = "Loan not found")
@@ -80,4 +88,31 @@ public class LoanRessource {
         log.debug("REST Request to get all loan");
         return loanService.getAllLoan();
     }
+
+    @PutMapping("/cancel/{slug}")
+    @ApiResponse(responseCode = "200", description = "Request to cancel reservation")
+    @Operation(summary = "Cancel reservation", description = "Cancel reservation")
+    public ResponseEntity<Boolean> cancelReservation(@PathVariable String slug){
+        log.debug("REST Request to confirm return : {}", slug);
+        boolean cancel = loanService.cancel(slug);
+        if (cancel){
+            return new ResponseEntity<>(cancel, HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(cancel,HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping("/rejete/{slug}")
+    @ApiResponse(responseCode = "200", description = "Request to reject reservation")
+    @Operation(summary = "Reject reservation", description = "Reject reservation")
+    public ResponseEntity<Boolean> REJETE(@PathVariable String slug){
+        log.debug("REST Request to confirm return : {}", slug);
+        boolean rejete = loanService.REJETE(slug);
+        if (rejete){
+            return new ResponseEntity<>(rejete, HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(rejete,HttpStatus.NOT_FOUND);
+        }
+    }
+
 }

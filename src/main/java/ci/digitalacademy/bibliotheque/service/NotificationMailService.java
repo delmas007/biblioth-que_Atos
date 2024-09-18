@@ -8,4 +8,6 @@ public interface NotificationMailService {
     void sendNotificationMailConfirmLoan(LoanDTO loanDTO);
     void sendNotificationMailLoan(LoanDTO loanDTO);
     void sendNotificationMailReturnConfirmation(LoanDTO loanDTO);
+    void sendNotificationMailCancel(LoanDTO loanDTO);
+    void sendNotificationMailRejete(LoanDTO loanDTO);
 }
