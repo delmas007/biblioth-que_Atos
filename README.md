@@ -17,7 +17,6 @@ Avant de lancer le projet, assurez-vous d'avoir installé les éléments suivant
 - **Maven** (pour la gestion des dépendances)
 - **PostgreSQL** (pour la base de données)
 - **Git** (pour cloner le dépôt)
-- **Docker** (optionnel pour la containerisation)
 
 ## Installation et lancement du projet
 
