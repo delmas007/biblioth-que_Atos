@@ -28,10 +28,10 @@ public class SecurityConfiguration {
                                 .requestMatchers("/api/authenticate").permitAll()
                                 .requestMatchers(POST,"/api/users").permitAll()
                                 .requestMatchers(POST,"/api/loans/reservation").hasAuthority(AuthorityConstants.USER)
-                                .requestMatchers(GET,"/api/books/**").hasAuthority(AuthorityConstants.USER)
+                                .requestMatchers(GET,"/api/books").hasAuthority(AuthorityConstants.USER)
                                 .requestMatchers(GET,"/api/users/slug/**").hasAuthority(AuthorityConstants.USER)
                                 .requestMatchers(PUT,"/api/users,/cancel/**").hasAuthority(AuthorityConstants.USER)
-                                .requestMatchers("/api/users/**,/api/loans/**").hasAuthority(AuthorityConstants.ADMIN)
+                                .requestMatchers("/api/books/**,/api/users/**,/api/loans/**").hasAuthority(AuthorityConstants.ADMIN)
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
