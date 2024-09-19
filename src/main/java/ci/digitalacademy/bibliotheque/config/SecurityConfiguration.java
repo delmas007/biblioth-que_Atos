@@ -3,6 +3,7 @@ package ci.digitalacademy.bibliotheque.config;
 import jakarta.servlet.DispatcherType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
@@ -21,12 +22,13 @@ public class SecurityConfiguration {
                 .csrf(CsrfConfigurer::disable) // Désactiver la protection CSRF pour cette configuration
                 .authorizeHttpRequests((authorize) -> authorize
                                 .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
-                                .requestMatchers("/users/*").permitAll()
+                                .requestMatchers("/api/authenticate").permitAll()
+                                .requestMatchers("/api/users").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
-                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
 
         return http.build();
     }

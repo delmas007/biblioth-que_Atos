@@ -16,6 +16,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true)
     private String username;
     private String password;
     private String slug;
@@ -31,6 +32,10 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Set<Loan> loan;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Role> role;
+    @ManyToOne
+    private Role role;
+
+    public User(long l, String slug, String firstName, String lastName, String email, String city) {
+
+    }
 }

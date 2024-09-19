@@ -7,12 +7,15 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.management.relation.Role;
+import java.util.List;
 import java.util.Set;
 @Getter
 @Setter
+@NoArgsConstructor
 public class UserDTO {
     private Long id;
     private String slug;
@@ -26,5 +29,5 @@ public class UserDTO {
     private String street;
     @JsonIgnore
     private Set<LoanDTO> loan;
-    private Set<Role> role;
+    private RoleDTO role;
 }

@@ -2,12 +2,17 @@ package ci.digitalacademy.bibliotheque.service.impl;
 
 import ci.digitalacademy.bibliotheque.model.User;
 import ci.digitalacademy.bibliotheque.repository.UserRepository;
+import ci.digitalacademy.bibliotheque.security.AuthorityConstants;
+import ci.digitalacademy.bibliotheque.service.RoleService;
 import ci.digitalacademy.bibliotheque.service.UserService;
 
+import ci.digitalacademy.bibliotheque.service.dto.RoleDTO;
 import ci.digitalacademy.bibliotheque.service.dto.UserDTO;
+import ci.digitalacademy.bibliotheque.service.mapper.RoleMapper;
 import ci.digitalacademy.bibliotheque.service.mapper.UserMapper;
 import ci.digitalacademy.bibliotheque.utils.SlugifyUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,11 +23,19 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final RoleService roleService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
     @Override
     public UserDTO save(UserDTO userDTO) {
         userDTO.setSlug(SlugifyUtils.generate(userDTO.getFirstName()));
+        Optional<RoleDTO> roleById = roleService.getRoleById(AuthorityConstants.USER);
+        if (roleById.isEmpty()){
+            throw new IllegalArgumentException("Role not found");
+        }
+        userDTO.setRole(roleById.get());
+        userDTO.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
         User user = userMapper.toEntity(userDTO);
         return userMapper.fromEntity(userRepository.save(user));
     }
@@ -51,7 +64,7 @@ public class UserServiceImpl implements UserService {
             if (userDTO.getStreet() != null){
                 existingUser.setStreet(userDTO.getStreet());
             }
-            return save(existingUser);
+            return userMapper.fromEntity(userRepository.save(userMapper.toEntity(existingUser)));
 
         }).orElseThrow(IllegalArgumentException::new);
     }
@@ -75,6 +88,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<UserDTO> findOneBySlug(String slug) {
-        return userRepository.findUerBySlug(slug).map(book -> userMapper.fromEntity(book));
+        return userRepository.findBySlug(slug).map(book -> userMapper.fromEntity(book));
     }
 }

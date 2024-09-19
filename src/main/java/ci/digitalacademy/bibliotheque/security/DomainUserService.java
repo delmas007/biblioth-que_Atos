@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,12 +32,9 @@ public class DomainUserService implements UserDetailsService {
 //            throw new IllegalArgumentException("User not active");
 //        }
 
-        final List<GrantedAuthority> grantedAuthorities = user.get()
-                .getRole()
-                .stream()
-                .map(Role::getRole)
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+        Role role = user.get().getRole();
+        GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role.getRole());
+        List<GrantedAuthority> grantedAuthorities = Collections.singletonList(grantedAuthority);
 
         return user.map(userRecover -> org.springframework.security.core.userdetails.User.builder()
                 .username(userRecover.getUsername())
