@@ -89,7 +89,7 @@ public class LoanRessource {
         return loanService.getAllLoan();
     }
 
-    @PutMapping("/cancel/{slug}")
+    @PatchMapping("/cancel/{slug}")
     @ApiResponse(responseCode = "200", description = "Request to cancel reservation")
     @Operation(summary = "Cancel reservation", description = "Cancel reservation")
     public ResponseEntity<Boolean> cancelReservation(@PathVariable String slug){
@@ -102,7 +102,7 @@ public class LoanRessource {
         }
     }
 
-    @PutMapping("/rejete/{slug}")
+    @PatchMapping("/rejete/{slug}")
     @ApiResponse(responseCode = "200", description = "Request to reject reservation")
     @Operation(summary = "Reject reservation", description = "Reject reservation")
     public ResponseEntity<Boolean> REJETE(@PathVariable String slug){

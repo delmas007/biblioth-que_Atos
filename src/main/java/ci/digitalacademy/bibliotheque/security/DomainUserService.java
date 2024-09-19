@@ -33,13 +33,14 @@ public class DomainUserService implements UserDetailsService {
 //        }
 
         Role role = user.get().getRole();
-        GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role.getRole());
+        GrantedAuthority grantedAuthority = new SimpleGrantedAuthority("ROLE_" + role.getRole());
         List<GrantedAuthority> grantedAuthorities = Collections.singletonList(grantedAuthority);
 
         return user.map(userRecover -> org.springframework.security.core.userdetails.User.builder()
                 .username(userRecover.getUsername())
                 .password(userRecover.getPassword())
                 .authorities(grantedAuthorities)
+                .roles(userRecover.getRole().getRole())
 //                .disabled(!userRecover.getActive())
                 .build()).orElseThrow(() -> new IllegalArgumentException("User not found"));
     }

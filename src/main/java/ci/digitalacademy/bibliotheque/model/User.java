@@ -29,7 +29,7 @@ public class User {
     private String country;
     private String street;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<Loan> loan;
 
     @ManyToOne

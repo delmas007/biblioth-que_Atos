@@ -15,7 +15,7 @@ import java.util.List;
 
 @SpringBootApplication
 @RequiredArgsConstructor
-public class BibliothequeApplication {
+public class BibliothequeApplication implements CommandLineRunner {
     private final RoleService roleService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserService userService;
@@ -24,21 +24,21 @@ public class BibliothequeApplication {
         SpringApplication.run(BibliothequeApplication.class, args);
     }
 
-//    @Override
-//    public void run(String... args) throws Exception {
-//        if (roleService.getAll().isEmpty()){
-//            RoleDTO roleDTO = new RoleDTO();
-//            roleDTO.setRole(AuthorityConstants.ADMIN);
-//            RoleDTO roleDTO1 = new RoleDTO();
-//            roleDTO1.setRole(AuthorityConstants.USER);
-//            RoleDTO role =roleService.save(roleDTO);
-//            roleService.save(roleDTO1);
-//            UserDTO userDTO = new UserDTO();
-//            userDTO.setUsername("admin");
-//            userDTO.setPassword(bCryptPasswordEncoder.encode("admin"));
-//            userDTO.setRole(role);
-//            userService.save(userDTO);
-//
-//        }
-//    }
+    @Override
+    public void run(String... args) throws Exception {
+        if (roleService.getAll().isEmpty()){
+            RoleDTO roleDTO = new RoleDTO();
+            roleDTO.setRole(AuthorityConstants.ADMIN);
+            RoleDTO roleDTO1 = new RoleDTO();
+            roleDTO1.setRole(AuthorityConstants.USER);
+            RoleDTO role =roleService.save(roleDTO);
+            roleService.save(roleDTO1);
+            UserDTO userDTO = new UserDTO();
+            userDTO.setUsername("admin");
+            userDTO.setPassword(bCryptPasswordEncoder.encode("admin"));
+            userDTO.setRole(roleDTO);
+            userService.save(userDTO);
+
+        }
+    }
 }

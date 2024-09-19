@@ -1,17 +1,8 @@
 package ci.digitalacademy.bibliotheque.service.dto;
-
-import ci.digitalacademy.bibliotheque.model.Loan;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Column;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.management.relation.Role;
-import java.util.List;
 import java.util.Set;
 @Getter
 @Setter

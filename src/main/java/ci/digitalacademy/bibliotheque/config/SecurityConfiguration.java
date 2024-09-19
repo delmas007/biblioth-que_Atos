@@ -1,5 +1,6 @@
 package ci.digitalacademy.bibliotheque.config;
 
+import ci.digitalacademy.bibliotheque.security.AuthorityConstants;
 import jakarta.servlet.DispatcherType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +13,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import static org.springframework.http.HttpMethod.*;
+
 @EnableWebSecurity
 @Configuration
 public class SecurityConfiguration {
@@ -23,7 +26,12 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests((authorize) -> authorize
                                 .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
                                 .requestMatchers("/api/authenticate").permitAll()
-                                .requestMatchers("/api/users").permitAll()
+                                .requestMatchers(POST,"/api/users").permitAll()
+                                .requestMatchers(POST,"/api/loans/reservation").hasAuthority(AuthorityConstants.USER)
+                                .requestMatchers(GET,"/api/books/**").hasAuthority(AuthorityConstants.USER)
+                                .requestMatchers(GET,"/api/users/slug/**").hasAuthority(AuthorityConstants.USER)
+                                .requestMatchers(PUT,"/api/users,/cancel/**").hasAuthority(AuthorityConstants.USER)
+                                .requestMatchers("/api/users/**,/api/loans/**").hasAuthority(AuthorityConstants.ADMIN)
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
