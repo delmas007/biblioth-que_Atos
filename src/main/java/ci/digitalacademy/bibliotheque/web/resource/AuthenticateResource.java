@@ -1,11 +1,19 @@
 package ci.digitalacademy.bibliotheque.web.resource;
 
 
+import ci.digitalacademy.bibliotheque.service.UserService;
 import ci.digitalacademy.bibliotheque.service.dto.JWTTokenDTO;
 import ci.digitalacademy.bibliotheque.service.dto.LoginDTO;
+import ci.digitalacademy.bibliotheque.service.dto.UserDTO;
 import ci.digitalacademy.bibliotheque.utils.SecurityUtils;
+import ci.digitalacademy.bibliotheque.utils.SlugifyUtils;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -24,12 +32,14 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class AuthenticateResource {
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final UserService userService;
 
     @Value("${security.authentication.jwt.token-validity-in-seconds:0}")
     private long tokenValidityInSeconds;
@@ -73,6 +83,16 @@ public class AuthenticateResource {
 
         JwsHeader jwsHeader = JwsHeader.with(SecurityUtils.JWT_ALGORITHM).build();
         return this.jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader, claims)).getTokenValue();
+    }
+
+
+    @PostMapping("/add-user")
+    @ApiResponse(responseCode = "201", description = "User created")
+    @Operation(summary = "Create a new user", description = "Create a new user")
+    public ResponseEntity<UserDTO> save(@RequestBody UserDTO user){
+        log.debug("REST Request to save User : {}", user);
+        user.setSlug(SlugifyUtils.generate(user.getFirstName()));
+        return new  ResponseEntity<>(userService.save(user), HttpStatus.CREATED);
     }
 
 }

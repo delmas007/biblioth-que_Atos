@@ -11,9 +11,9 @@ public class SwaggerConfiguration {
         @Bean
         public OpenAPI getOpenAPI() {
             final Info info = new Info()
-                                    .title("MonEtabAPIs")
+                                    .title("BiblioAPIs")
                                     .version("2.0.2")
-                                    .description("Theses APIs exposes Mon ETAB endpoints");
+                                    .description("Theses APIs exposes Biblio endpoints");
             return new OpenAPI().info(info);
 
     }
